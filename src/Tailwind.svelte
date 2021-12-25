@@ -5,4 +5,10 @@
   /* purgecss end ignore */
 
   @tailwind utilities;
+
+  * {
+    padding: 0;
+    margin: 0;
+    @apply select-none;
+  }
 </style>

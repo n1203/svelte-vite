@@ -1,34 +1,33 @@
 <script lang="ts">
-  import logo from './assets/svelte.png'
-  import Counter from './lib/Counter.svelte'
+  import { fade } from 'svelte/transition';
+  import Nav from './lib/nav/index.svelte'
+  import Loading from './lib/loading/index.svelte'
+  import Sidebar from './lib/sidebar/index.svelte'
   import Tailwind from './Tailwind.svelte';
+  import Router from 'svelte-spa-router'
+  import routes from './router'
+  import { onMount } from 'svelte';
+
+  let loading = true
+  onMount(async () => {
+    loading = false
+  })
 </script>
 
+
+{#if loading}
+  <div class="absolute top-0 left-0 right-0 bottom-0 z-50 flex flex-row items-center justify-center">
+    <Loading />
+  </div>
+{/if}
 <Tailwind />
-
-<main class="text-center p-4 mx-0">
-  <img width="100" height="100" src={logo} alt="Svelte Logo" class="inline-block" />
-  <h1 class="text-6xl uppercase font-thin leading-tight my-8 mx-auto max-w-xs sm:max-w-xs">Hello Vite!</h1>
-
-  <Counter id="0" />
-
-  <p class="max-w-xs sm:max-w-none my-4 mx-auto leading-5">
-    Visit <a class="text-blue-600 underline" href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte
-    apps.
-  </p>
-
-  <p class="max-w-xs sm:max-w-none my-4 mx-auto leading-5">
-    Check out <a href="https://github.com/sveltejs/kit#readme">SvelteKit</a> for
-    the officially supported framework, also powered by Vite!
-  </p>
+<main class={`relative w-screen h-screen bg-gray-100 ${loading ? 'opacity-0' : 'opacity-100'}`}>
+    <Nav />
+    <div class="absolute bottom-0 top-14 left-0 right-0 flex flex-row">
+      <Sidebar />
+      <Router {routes}/>
+    </div>
 </main>
 
 <style>
-  :root {
-    --svelte-rgb: 255, 62, 0;
-  }
-
-  h1 {
-    color: rgb(var(--svelte-rgb));
-  }
 </style>
